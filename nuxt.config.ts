@@ -1,9 +1,9 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
     '@nuxt/ui',
     '@nuxtjs/tailwindcss',
-    '@pinia/nuxt'
+    '@pinia/nuxt',
+    '@nuxtjs/color-mode'
   ],
   devtools: { enabled: true },
   pinia: {
@@ -11,5 +11,16 @@ export default defineNuxtConfig({
   },
   imports: {
     dirs: ['./stores']
-  }
+  },
+  colorMode: {
+    classSuffix: ''
+  },
+  tailwindcss: {
+    cssPath: '~/assets/css/tailwind.css',
+    configPath: 'tailwind.config.js',
+    exposeConfig: false,
+    config: {},
+    injectPosition: 0,
+    viewer: true,
+  },
 })
