@@ -1,6 +1,9 @@
 <template>
-  <div>
+  <div class="h-screen flex flex-col justify-between">
     <GeneralHeader/>
-    <NuxtPage/>
+    <div class="pt-10 h-[80%]">
+      <NuxtPage/>
+    </div>
+    <GeneralFooter/>
   </div>
 </template>
