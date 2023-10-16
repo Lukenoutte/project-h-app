@@ -1,6 +1,6 @@
 <template>
   <div class="px-5 md:flex md:justify-center md:items-center h-full">
-    <div class="w-full md:w-2/5">
+    <div class="w-full md:w-[500px]">
       <span class="font-semibold">Sign Up</span>
       <UCard class="mt-4 w-full">
         <UInput color="gray" variant="outline" placeholder="Name" />
