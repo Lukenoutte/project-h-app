@@ -5,6 +5,7 @@
         name="i-heroicons-fire-solid" />
     </NuxtLink>
     <div class="flex items-center">
+      <USelect class="mr-4 shadow-md" v-model="locale" :options="[ 'pt-br', 'en' ]" />
       <UButton class="mr-4 shadow-md" color="white" :ui="{ rounded: 'rounded-xl' }"
         title="Dark Mode"
         :icon="isDarkMode ? 'i-heroicons-sun-solid' : 'i-heroicons-moon-solid'"
@@ -19,6 +20,7 @@
 </template>
 
 <script setup>
+  const { locale } = useI18n()
   const setColorTheme = (newTheme) => {
     useColorMode().preference = newTheme
   }
