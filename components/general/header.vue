@@ -6,10 +6,14 @@
     </NuxtLink>
     <div class="flex items-center">
       <UButton class="mr-4 shadow-md" color="white" :ui="{ rounded: 'rounded-xl' }"
+        title="Dark Mode"
         :icon="isDarkMode ? 'i-heroicons-sun-solid' : 'i-heroicons-moon-solid'"
         @click="setColorTheme(isDarkMode ? 'light' : 'dark')" />
-      <UButton label="Sign In" class="px-7 py-2 shadow-md" color="white"
-        :ui="{ rounded: 'rounded-xl' }"/>
+      <NuxtLink to="/sign-in">
+        <UButton label="Sign In" title="Sign In" 
+          class="px-7 py-2 shadow-md" color="white"
+          :ui="{ rounded: 'rounded-xl' }"/>
+      </NuxtLink>
     </div>
   </div>
 </template>
