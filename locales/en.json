@@ -1,3 +1,8 @@
 {
-  "welcome": "Welcome"
+  "welcome": "Welcome",
+  "sign-in": "Sign In",
+  "password": "Password",
+  "finish": "Finish",
+  "dark-mode": "Dark Mode",
+  "all-right-reserved": "All rights reserved."
 }

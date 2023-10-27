@@ -1,5 +1,5 @@
 <template>
-  <div class="w-1/5 pl-5 hidden md:block">
+  <div class="w-1/5 pl-5 max-w-[300px]">
     <DashboardLeftMenuItem
       title="Dashboard" 
       icon="i-heroicons-rectangle-group-solid"

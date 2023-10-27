@@ -1,3 +1,8 @@
 {
-  "welcome": "Bem Vindo"
+  "welcome": "Bem Vindo",
+  "sign-in": "Entrar",
+  "password": "Senha",
+  "finish": "Finalizar",
+  "dark-mode": "Modo Noturno",
+  "all-right-reserved": "Todos os direitos reservados."
 }

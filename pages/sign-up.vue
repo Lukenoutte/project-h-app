@@ -9,7 +9,7 @@
         <UInput color="gray" variant="outline" class="mt-2" placeholder="Rooms" />
       </UCard>
       <div class="flex justify-end">
-        <UButton class="mt-3 px-7 py-2" label="Finish"
+        <UButton class="mt-3 px-7 py-2" :label="$t('finish')"
           color="primary" :ui="{ rounded: 'rounded-xl' }"/>
       </div>
     </div>
