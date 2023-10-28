@@ -1,7 +1,7 @@
 <template>
   <div class="px-5 md:flex md:justify-center md:items-center h-full">
     <div class="w-full md:w-[500px]">
-      <span class="font-semibold">Sign Up</span>
+      <span class="font-semibold">{{ $t('sign-up') }}</span>
       <UCard class="mt-4 w-full">
         <UInput color="gray" variant="outline" placeholder="Name" />
         <UInput color="gray" variant="outline" class="mt-2" placeholder="Address" />

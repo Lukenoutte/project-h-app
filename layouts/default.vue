@@ -5,5 +5,6 @@
       <NuxtPage/>
     </div>
     <GeneralFooter/>
+    <GeneralMobileMenu/>
   </div>
 </template>

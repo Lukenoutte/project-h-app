@@ -8,7 +8,7 @@ export default defineNuxtConfig({
   ],
   devtools: { enabled: true },
   pinia: {
-    autoImports: ['defineStore']
+    autoImports: ['defineStore', 'storeToRefs']
   },
   imports: {
     dirs: ['./stores']

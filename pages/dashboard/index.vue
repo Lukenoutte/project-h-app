@@ -4,5 +4,5 @@
 
 <script setup>
   definePageMeta({ layout: 'dashboard' })
-  const { mobileMenuIsOpen } = useGlobalStore();
+  const { mobileMenuIsOpen } = storeToRefs(useGlobalStore())
 </script>

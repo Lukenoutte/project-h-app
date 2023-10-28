@@ -16,16 +16,20 @@
         :title="$t('dark-mode')"
         :icon="isDarkMode ? 'i-heroicons-sun-solid' : 'i-heroicons-moon-solid'"
         @click="setColorTheme(isDarkMode ? 'light' : 'dark')" />
-      <NuxtLink to="/sign-in">
+      <NuxtLink to="/signin">
         <UButton :label="$t('sign-in')" :title="$t('sign-in')" 
           class="px-7 py-2" color="white"
           :ui="{ rounded: 'rounded-xl' }"/>
       </NuxtLink>
     </div>
     <div class="block lg:hidden">
-      <UIcon @click.prevent="setMenuMobileState(!mobileMenuIsOpen)"
-        name="i-heroicons-bars-3" 
-        class="w-8 h-8 cursor-pointer" />
+      <UButton 
+        color="gray"
+        variant="ghost" 
+        icon="i-heroicons-bars-3"
+        :ui="{ icon: { size: { xl: 'h-8 w-8'} } }"
+        size="xl"
+        @click="setMenuMobileState(!mobileMenuIsOpen)" />
     </div>
   </div>
 </template>
@@ -46,7 +50,8 @@
     return colorMode === 'dark'
   })
 
-  const { mobileMenuIsOpen, setMenuMobileState } = useGlobalStore()
+  const { mobileMenuIsOpen } = storeToRefs(useGlobalStore())
+  const { setMenuMobileState } = useGlobalStore()
 </script>
 
 <style>
