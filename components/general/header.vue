@@ -24,8 +24,9 @@
     </div>
     <div class="block lg:hidden">
       <UButton 
-        color="gray"
-        variant="ghost" 
+        :padded="false"
+        color="black"
+        variant="link"
         icon="i-heroicons-bars-3"
         :ui="{ icon: { size: { xl: 'h-8 w-8'} } }"
         size="xl"
