@@ -4,11 +4,6 @@ export default defineAppConfig({
     gray: 'zinc',
     notifications: {
       position: 'top-0 bottom-auto'
-    },
-    button: {
-      default: {
-        loadingIcon:''
-      }
     }
    } 
 })

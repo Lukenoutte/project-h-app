@@ -1,9 +1,10 @@
 <template>
   <div class="px-5 md:flex md:justify-center md:items-center h-full">
     <div class="w-full md:w-[300px]">
-      <span class="font-semibold">{{ $t('sign-in') }}</span>
+      <span v-if="!isLoadingLogin" class="font-semibold">{{ $t('sign-in') }}</span>
+      <USkeleton v-else class="h-[20px] w-[50px]" />
       <UForm :state="loginState" @submit="signIn">
-        <UCard class="mt-4 w-full">
+        <UCard class="mt-4 w-full" v-if="!isLoadingLogin">
           <UFormGroup name="email" :error="!loginState.email && errorOnSubmmit">
             <UInput color="gray" variant="outline" v-model="loginState.email"
               placeholder="E-mail" />
@@ -14,13 +15,22 @@
               :placeholder="$t('password')" type="password" />
           </UFormGroup>
         </UCard>
-        <div class="flex justify-end">
-          <UButton class="mt-3 px-7 py-2"
-            :loading="isLoadingLogin"
-            :disabled="isLoadingLogin"
+        <USkeleton v-else class="mt-4 h-[110px] w-[100%]" />
+        <div class="column mt-3" v-if="!isLoadingLogin">
+          <UButton block
             type="submit"
-            :label="!isLoadingLogin ? 'Enter' : ''"
+            :label="$t('sign-in')"
+            :title="$t('sign-in')"
             color="primary" :ui="{ rounded: 'rounded-xl' }"/>
+          <UButton class="mt-3" block variant="solid"
+            :label="$t('create-account')"
+            :title="$t('create-account')"
+            to="/signup"
+            color="white" :ui="{ rounded: 'rounded-xl' }"/>
+        </div>
+        <div class="mt-3" v-else>
+          <USkeleton class="h-9 w-[100%]" />
+          <USkeleton class="h-9 mt-3 w-[100%]" />
         </div>
       </UForm>
     </div>

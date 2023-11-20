@@ -5,5 +5,9 @@
   "password": "Password",
   "finish": "Finish",
   "dark-mode": "Dark Mode",
-  "all-right-reserved": "All rights reserved."
+  "all-right-reserved": "All rights reserved.",
+  "create-account": "Create account",
+  "name": "Name",
+  "comfirm-password": "Comfirm password",
+  "back": "Back"
 }
