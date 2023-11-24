@@ -11,7 +11,7 @@
           </UFormGroup>
           <UFormGroup name="password" :error="!loginState.password && errorOnSubmmit">
             <GeneralInputPassword
-              @on-change="value => loginState.password = value"
+              v-model="loginState.password"
               :placeholder="$t('password')" />
           </UFormGroup>
         </UCard>
@@ -40,7 +40,6 @@
 <script setup>
   import authenticationService from '~/services/authenticationSevice';
   import { ref, reactive } from 'vue';
-  const toast = useToast()
   const loginState= reactive({
     email: '',
     password: ''
@@ -59,13 +58,7 @@
       });
       router.push('/dashboard');
     } catch (error) {
-      // toast.add({ 
-      //   title: 'Não foi possivel fazer login.', 
-      //   icon: 'i-heroicons-exclamation-triangle',
-      //   color: 'red',
-      //   timeout: 1500
-      //  })
-      this.$toast.add({ title: 'Não foi possivel fazer login.' })
+      useToastError({ title: 'Não foi possivel fazer login.' })
     } finally {
       isLoadingLogin.value = false
     }

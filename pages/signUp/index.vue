@@ -19,13 +19,13 @@
             <UFormGroup name="password" 
               :error="shouldShowErrorOnField('password')">
               <GeneralInputPassword
-                @on-change="value => accountState.password = value"
+                v-model="accountState.password"
                 :placeholder="$t('password')" />
             </UFormGroup>
             <UFormGroup name="comfirmPass" 
               :error="shouldShowErrorOnField('comfirmPass')">
               <GeneralInputPassword
-                @on-change="value => accountState.comfirmPass = value"
+                v-model="accountState.comfirmPass"
                 :placeholder="$t('comfirm-password')" />
           </UFormGroup>
         </UCard>
@@ -52,7 +52,6 @@
 <script setup>
   import authenticationService from '~/services/authenticationSevice';
   import { ref, reactive } from 'vue';
-  const toast = useToast()
   const accountState= reactive({
     name: '',
     email: '',
@@ -75,12 +74,7 @@
       });
       router.push('/signin');
     } catch (error) {
-      toast.add({ 
-        title: 'Não foi possivel criar uma conta.', 
-        icon: 'i-heroicons-exclamation-triangle',
-        color: 'red',
-        timeout: 1500
-       })
+      useToastError({ title: 'Não foi possivel criar uma conta.' })
     } finally {
       isLoadingSignUp.value = false
     }
