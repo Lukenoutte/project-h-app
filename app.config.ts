@@ -1,5 +1,5 @@
-export default defineAppConfig({  
-  ui: { 
+export default defineAppConfig({
+  ui: {
     primary: 'green',
     gray: 'zinc',
     notifications: {
@@ -8,5 +8,5 @@ export default defineAppConfig({
     skeleton: {
       background: 'bg-gray-200 dark:bg-gray-800',
     }
-   } 
+  }
 })
