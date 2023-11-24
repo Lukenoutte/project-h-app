@@ -2,30 +2,28 @@
   <div class="px-5 md:flex md:justify-center md:items-center h-full">
     <div class="w-full md:w-[500px]">
       <span class="font-semibold">{{ $t('sign-up') }}</span>
-      <UForm :state="accountState" @submit="signUp">
+      <UForm :state="values" @submit="signUp">
         <UCard class="mt-4 w-full">
-            <UFormGroup name="name" :error="shouldShowErrorOnField('name')">
+            <UFormGroup name="name" :error="!!errors.name">
               <UInput color="gray" 
                 variant="outline" 
-                v-model="accountState.name"
+                v-bind="name"
                 :placeholder="$t('name')" />
             </UFormGroup>
-            <UFormGroup name="email" :error="shouldShowErrorOnField('email')">
+            <UFormGroup name="email" :error="!!errors.email">
               <UInput color="gray"
-                variant="outline" class="mt-2" 
-                v-model="accountState.email"
+                variant="outline" class="mt-2"
+                v-bind="email"
                 placeholder="E-mail" />
             </UFormGroup>
-            <UFormGroup name="password" 
-              :error="shouldShowErrorOnField('password')">
+            <UFormGroup name="password" :error="!!errors.password">
               <GeneralInputPassword
-                v-model="accountState.password"
+                v-bind="password"
                 :placeholder="$t('password')" />
             </UFormGroup>
-            <UFormGroup name="comfirmPass" 
-              :error="shouldShowErrorOnField('comfirmPass')">
+            <UFormGroup name="comfirmPass" :error="!!errors.comfirmPass">
               <GeneralInputPassword
-                v-model="accountState.comfirmPass"
+                v-bind="comfirmPass"
                 :placeholder="$t('comfirm-password')" />
           </UFormGroup>
         </UCard>
@@ -51,26 +49,36 @@
 
 <script setup>
   import authenticationService from '~/services/authenticationSevice';
-  import { ref, reactive } from 'vue';
-  const accountState= reactive({
-    name: '',
-    email: '',
-    password: '',
-    comfirmPass: ''
-  })
+  import { ref } from 'vue';
+  import { useForm } from 'vee-validate';
+  import * as yup from 'yup';
   const isLoadingSignUp = ref(false)
-  const errorEmptyField = ref(false)
-  const errorDifferentPasswords = ref(false)
   const router = useRouter();
+
+  const validationSchema = yup.object({ 
+    name: yup.string().required(),
+    email: yup.string().required().email(),
+    password: yup.string().min(6).required(),
+    comfirmPass: yup.string().min(6).required()
+   });
+  const { defineInputBinds, values, errors, validate } = useForm({ 
+    validationSchema
+  });
+  const name = defineInputBinds('name');
+  const email = defineInputBinds('email');
+  const password = defineInputBinds('password');
+  const comfirmPass = defineInputBinds('comfirmPass');
 
   const signUp = async () => {
     try {
+      const validationErrors = await validate();
+      if (!validationErrors.valid) return
       isLoadingSignUp.value = true
-      if (!isValidSignUpForm()) return
+      const { name, email, password } = values
       const { data } = await authenticationService.signUp({
-        name: accountState.name,
-        email: accountState.email, 
-        password: accountState.password,
+        name,
+        email, 
+        password,
       });
       router.push('/signin');
     } catch (error) {
@@ -79,26 +87,4 @@
       isLoadingSignUp.value = false
     }
   };
-
-  const isValidSignUpForm = () => {
-    const { name, email, password, comfirmPass } = accountState
-    if (!name || !email || !password || !comfirmPass) {
-      errorEmptyField.value = true
-      return 
-    }
-    if (password !== comfirmPass) {
-      errorDifferentPasswords.value = true
-      return
-    }
-    errorDifferentPasswords.value = false
-    errorEmptyField.value = false
-    return true
-  }
-
-  const shouldShowErrorOnField = (field) => {
-    if (!accountState[field] && errorEmptyField.value) return true
-    const passFields= field === 'password' || field === 'comfirmPass'
-    if (passFields && errorDifferentPasswords.value) return true
-    return false
-  }
 </script>

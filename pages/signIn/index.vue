@@ -3,15 +3,15 @@
     <div class="w-full md:w-[300px]">
       <span v-if="!isLoadingLogin" class="font-semibold">{{ $t('sign-in') }}</span>
       <USkeleton v-else class="h-[20px] w-[50px]" />
-      <UForm :state="loginState" @submit="signIn">
+      <UForm :state="values" @submit="signIn">
         <UCard class="mt-4 w-full" v-if="!isLoadingLogin">
-          <UFormGroup name="email" :error="!loginState.email && errorOnSubmmit">
-            <UInput color="gray" variant="outline" v-model="loginState.email"
+          <UFormGroup name="email" :error="!!errors.email">
+            <UInput color="gray" variant="outline" v-bind="email"
               placeholder="E-mail" />
           </UFormGroup>
-          <UFormGroup name="password" :error="!loginState.password && errorOnSubmmit">
+          <UFormGroup name="password" :error="!!errors.password">
             <GeneralInputPassword
-              v-model="loginState.password"
+              v-bind="password"
               :placeholder="$t('password')" />
           </UFormGroup>
         </UCard>
@@ -39,22 +39,29 @@
 
 <script setup>
   import authenticationService from '~/services/authenticationSevice';
-  import { ref, reactive } from 'vue';
-  const loginState= reactive({
-    email: '',
-    password: ''
-  })
+  import { useForm } from 'vee-validate';
+  import * as yup from 'yup';
+  import { ref } from 'vue';
   const isLoadingLogin = ref(false)
-  const errorOnSubmmit = ref(false)
   const router = useRouter();
+  const validationSchema = yup.object({ 
+    email: yup.string().required().email(),
+    password: yup.string().min(6).required()
+   });
+  const { defineInputBinds, values, errors, validate } = useForm({ 
+    validationSchema
+  });
+  const email = defineInputBinds('email');
+  const password = defineInputBinds('password');
 
   const signIn = async () => {
     try {
+      const validationErrors = await validate();
+      if (!validationErrors.valid) return
       isLoadingLogin.value = true
-      if (!isValidLoginForm()) return
       const { data } = await authenticationService.signIn({ 
-        email: loginState.email, 
-        password: loginState.password 
+        email: values.email, 
+        password: values.password 
       });
       router.push('/dashboard');
     } catch (error) {
@@ -63,9 +70,4 @@
       isLoadingLogin.value = false
     }
   };
-
-  const isValidLoginForm = () => {
-    if (loginState.email && loginState.password ) return true
-    errorOnSubmmit.value = true
-  }
 </script>
