@@ -10,9 +10,9 @@
               placeholder="E-mail" />
           </UFormGroup>
           <UFormGroup name="password" :error="!loginState.password && errorOnSubmmit">
-            <UInput color="gray" variant="outline" class="mt-2" 
-              v-model="loginState.password"
-              :placeholder="$t('password')" type="password" />
+            <GeneralInputPassword
+              @on-change="value => loginState.password = value"
+              :placeholder="$t('password')" />
           </UFormGroup>
         </UCard>
         <USkeleton v-else class="mt-4 h-[110px] w-[100%]" />
@@ -59,11 +59,13 @@
       });
       router.push('/dashboard');
     } catch (error) {
-      toast.add({ 
-        title: 'Não foi possivel fazer login.', 
-        icon: 'i-heroicons-exclamation-triangle',
-        color: 'red'
-       })
+      // toast.add({ 
+      //   title: 'Não foi possivel fazer login.', 
+      //   icon: 'i-heroicons-exclamation-triangle',
+      //   color: 'red',
+      //   timeout: 1500
+      //  })
+      this.$toast.add({ title: 'Não foi possivel fazer login.' })
     } finally {
       isLoadingLogin.value = false
     }

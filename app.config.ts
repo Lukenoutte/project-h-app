@@ -4,6 +4,9 @@ export default defineAppConfig({
     gray: 'zinc',
     notifications: {
       position: 'top-0 bottom-auto'
+    },
+    skeleton: {
+      background: 'bg-gray-200 dark:bg-gray-800',
     }
    } 
 })

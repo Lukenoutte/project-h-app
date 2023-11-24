@@ -10,4 +10,13 @@ export default {
     }
   },
 
+  async signUp({ name, email, password }) {
+    try {
+      const { data } = await axios.post('/create/user', { name, email, password });
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
 };
