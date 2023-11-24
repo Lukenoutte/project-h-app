@@ -58,7 +58,7 @@
       });
       router.push('/dashboard');
     } catch (error) {
-      useToastError({ title: 'Não foi possivel fazer login.' })
+      useToastError('Não foi possivel fazer login.')
     } finally {
       isLoadingLogin.value = false
     }

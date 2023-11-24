@@ -74,7 +74,7 @@
       });
       router.push('/signin');
     } catch (error) {
-      useToastError({ title: 'Não foi possivel criar uma conta.' })
+      useToastError('Não foi possivel criar uma conta.')
     } finally {
       isLoadingSignUp.value = false
     }

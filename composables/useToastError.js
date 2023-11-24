@@ -1,4 +1,4 @@
-export const useToastError = ({ title }) => {
+export const useToastError = (title) => {
   const toast = useToast()
   toast.add({ 
     title, 
