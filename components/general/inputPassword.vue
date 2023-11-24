@@ -6,7 +6,7 @@
       <UButton
         color="gray"
         variant="link"
-        icon="i-heroicons-eye-solid"
+        :icon="getIconToShow()"
         :padded="false"
         @click="setInputType"
       />
@@ -15,15 +15,20 @@
 </template>
 
 <script setup>
-  const inputPasswordType = ref('password')
+  const textType = 'text'
+  const passwordType = 'password'
+  const inputPasswordType = ref(passwordType)
   const props = defineProps({
     placeholder: String,
   })
 
   const setInputType = () => {
-    const textType = 'text'
-    const passwordType = 'password'
     const isText = inputPasswordType.value === textType
     inputPasswordType.value = isText ? passwordType : textType
+  }
+
+  const getIconToShow = () => {
+    if (inputPasswordType.value === passwordType) return 'i-heroicons-eye-solid'
+    if (inputPasswordType.value === textType) return 'i-heroicons-eye-slash-solid'
   }
 </script>
