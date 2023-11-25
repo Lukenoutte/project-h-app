@@ -20,6 +20,7 @@
             />
             <NuxtLink to="/signin">
                 <UButton
+                    v-if="!isAuthenticated"
                     :label="$t('sign-in')"
                     :title="$t('sign-in')"
                     class="px-7 py-2"
@@ -60,6 +61,8 @@ const isDarkMode = computed(() => {
 
 const { mobileMenuIsOpen } = storeToRefs(useGlobalStore())
 const { setMenuMobileState } = useGlobalStore()
+
+const { isAuthenticated } = storeToRefs(useAuthenticationStore())
 </script>
 
 <style></style>

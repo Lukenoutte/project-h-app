@@ -59,15 +59,20 @@ const { defineInputBinds, values, errors, validate } = useForm({
 const email = defineInputBinds('email')
 const password = defineInputBinds('password')
 
+const { setAccessToken, setRefreshToken, setIsAuthenticated } = useAuthenticationStore()
+
 const signIn = async () => {
     try {
         const validationErrors = await validate()
         if (!validationErrors.valid) return
         isLoadingLogin.value = true
-        const { data } = await authenticationService.signIn({
+        const { accessToken, refreshToken } = await authenticationService.signIn({
             email: values.email,
             password: values.password,
         })
+        setAccessToken(accessToken)
+        setRefreshToken(refreshToken)
+        setIsAuthenticated(true)
         router.push('/dashboard')
     } catch (error) {
         useToastError('Não foi possivel fazer login.')
