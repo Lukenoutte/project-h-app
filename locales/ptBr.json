@@ -9,5 +9,7 @@
   "create-account": "Criar conta",
   "name": "Nome",
   "comfirm-password": "Comfirmar senha",
-  "back": "Voltar"
+  "back": "Voltar",
+  "page-not-found": "Página não encontrada",
+  "continue": "Continuar"
 }
