@@ -4,7 +4,8 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
     '@nuxtjs/color-mode',
-    '@nuxtjs/i18n'
+    '@nuxtjs/i18n',
+    'nuxt-security'
   ],
   devtools: { enabled: true },
   pinia: {

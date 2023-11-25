@@ -3,5 +3,5 @@
 </template>
 
 <script setup>
-definePageMeta({ layout: 'dashboard' })
+definePageMeta({ layout: 'dashboard', middleware: ['authentication'] })
 </script>
