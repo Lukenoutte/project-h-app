@@ -18,9 +18,8 @@
                 :icon="isDarkMode ? 'i-heroicons-sun-solid' : 'i-heroicons-moon-solid'"
                 @click="setColorTheme(isDarkMode ? 'light' : 'dark')"
             />
-            <NuxtLink to="/signin">
+            <NuxtLink to="/signin" v-if="!isAuthenticated">
                 <UButton
-                    v-if="!isAuthenticated"
                     :label="$t('sign-in')"
                     :title="$t('sign-in')"
                     class="px-7 py-2"
@@ -28,6 +27,22 @@
                     :ui="{ rounded: 'rounded-xl' }"
                 />
             </NuxtLink>
+            <UDropdown v-else :items="itemsDropDownProfile" :popper="{ placement: 'bottom-start' }">
+                <UButton
+                    color="white"
+                    icon="i-heroicons-user-solid"
+                    :ui="{ rounded: 'rounded-xl' }"
+                    trailing-icon="i-heroicons-chevron-down-20-solid"
+                />
+                <template #account="{ item }">
+                    <div class="text-left">
+                        <p>Signed in as</p>
+                        <p class="truncate font-medium text-gray-900 dark:text-white">
+                            {{ item.label }}
+                        </p>
+                    </div>
+                </template>
+            </UDropdown>
         </div>
         <div class="block lg:hidden">
             <UButton
@@ -36,7 +51,7 @@
                 variant="link"
                 icon="i-heroicons-bars-3"
                 :ui="{ icon: { size: { xl: 'h-8 w-8' } } }"
-                size="xl"
+                size="lg"
                 @click="setMenuMobileState(!mobileMenuIsOpen)"
             />
         </div>
@@ -62,7 +77,40 @@ const isDarkMode = computed(() => {
 const { mobileMenuIsOpen } = storeToRefs(useGlobalStore())
 const { setMenuMobileState } = useGlobalStore()
 
+const { signOut } = useAuthenticationStore()
 const { isAuthenticated } = storeToRefs(useAuthenticationStore())
+
+const itemsDropDownProfile = [
+    [
+        {
+            label: 'ben@example.com',
+            slot: 'account',
+            disabled: true,
+        },
+    ],
+    [
+        {
+            label: 'Profile',
+            avatar: {
+                src: 'https://avatars.githubusercontent.com/u/739984?v=4',
+            },
+        },
+
+        {
+            label: 'Settings',
+            icon: 'i-heroicons-cog-8-tooth',
+        },
+    ],
+    [
+        {
+            label: 'Sign out',
+            icon: 'i-heroicons-arrow-left-on-rectangle',
+            click: () => {
+                signOut()
+            },
+        },
+    ],
+]
 </script>
 
 <style></style>

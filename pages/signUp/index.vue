@@ -2,7 +2,7 @@
     <div class="px-5 md:flex md:justify-center md:items-center h-full">
         <div class="w-full md:w-[500px]">
             <span class="font-semibold">{{ $t('sign-up') }}</span>
-            <UForm :state="values" @submit="signUp">
+            <UForm :state="values" @submit="submitSignUp">
                 <UCard class="mt-4 w-full">
                     <UFormGroup name="name" :error="!!errors.name">
                         <UInput color="gray" variant="outline" v-bind="name" :placeholder="$t('name')" />
@@ -43,12 +43,9 @@
 </template>
 
 <script setup>
-import authenticationService from '~/services/authenticationSevice'
 import { ref } from 'vue'
 import { useForm } from 'vee-validate'
 import * as yup from 'yup'
-const isLoadingSignUp = ref(false)
-const router = useRouter()
 
 const validationSchema = yup.object({
     name: yup.string().required(),
@@ -64,22 +61,11 @@ const email = defineInputBinds('email')
 const password = defineInputBinds('password')
 const comfirmPass = defineInputBinds('comfirmPass')
 
-const signUp = async () => {
-    try {
-        const validationErrors = await validate()
-        if (!validationErrors.valid) return
-        isLoadingSignUp.value = true
-        const { name, email, password } = values
-        const { data } = await authenticationService.signUp({
-            name,
-            email,
-            password,
-        })
-        router.push('/signin')
-    } catch (error) {
-        useToastError('Não foi possivel criar uma conta.')
-    } finally {
-        isLoadingSignUp.value = false
-    }
+const { signUp } = useAuthenticationStore()
+
+const submitSignUp = async () => {
+    const validationErrors = await validate()
+    if (!validationErrors.valid) return
+    signUp()
 }
 </script>
