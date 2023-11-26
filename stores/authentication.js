@@ -20,12 +20,13 @@ export const useAuthenticationStore = defineStore('authentication', () => {
                 method: 'POST',
                 body: { email, password },
             })
-            if (error) throw new Error(error.statusMessage)
+            if (error.value) throw new Error(error.value.statusMessage)
             const { accessToken, refreshToken } = data.value
             setTokens({ accessToken, refreshToken })
             isAuthenticated.value = true
             router.push('/dashboard')
         } catch (error) {
+            console.log(error)
             useToastError('Não foi possivel fazer entrar.')
         } finally {
             isLoadingAuthentication.value = false
@@ -38,7 +39,7 @@ export const useAuthenticationStore = defineStore('authentication', () => {
             const { error } = await useMyFetch('/signout', {
                 method: 'DELETE',
             })
-            if (error) throw new Error(error.statusMessage)
+            if (error.value) throw new Error(error.value.statusMessage)
             setTokens({ accessToken: null, refreshToken: null })
             router.push('/signin')
             isAuthenticated.value = false
@@ -56,7 +57,7 @@ export const useAuthenticationStore = defineStore('authentication', () => {
                 method: 'POST',
                 body: JSON.stringify({ name, email, password }),
             })
-            if (error) throw new Error(error.statusMessage)
+            if (error.value) throw new Error(error.value.statusMessage)
             router.push('/signin')
         } catch (error) {
             useToastError('Não foi possivel criar uma conta.')
