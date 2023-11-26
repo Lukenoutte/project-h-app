@@ -46,6 +46,8 @@
 import { useForm } from 'vee-validate'
 import * as yup from 'yup'
 
+definePageMeta({ middleware: ['guest'] })
+
 const validationSchema = yup.object({
     name: yup.string().required(),
     email: yup.string().required().email(),

@@ -27,7 +27,7 @@ export const useAuthenticationStore = defineStore('authentication', () => {
             router.push('/dashboard')
         } catch (error) {
             console.log(error)
-            useToastError('Não foi possivel fazer entrar.')
+            useToastError('Não foi possivel entrar.')
         } finally {
             isLoadingAuthentication.value = false
         }
