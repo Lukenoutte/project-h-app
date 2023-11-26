@@ -35,14 +35,14 @@ export const useAuthenticationStore = defineStore('authentication', () => {
 
     async function signOut() {
         try {
+            setTokens({ accessToken: null, refreshToken: null })
+            router.push('/signin')
             isLoadingAuthentication.value = true
+            isAuthenticated.value = false
             const { error } = await useMyFetch('/signout', {
                 method: 'DELETE',
             })
             if (error.value) throw new Error(error.value.statusMessage)
-            setTokens({ accessToken: null, refreshToken: null })
-            router.push('/signin')
-            isAuthenticated.value = false
         } catch (error) {
             useToastError('Não foi possivel sair.')
         } finally {
