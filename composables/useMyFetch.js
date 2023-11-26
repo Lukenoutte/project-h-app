@@ -3,8 +3,10 @@ export const useMyFetch = (request, opts) => {
         onRequest({ request, options }) {
             const accessToken = useCookie('accessToken')
             if (accessToken.value) {
-                options.headers = options.headers || {}
-                options.headers.authorization = `Bearer ${accessToken.value}`
+                options.headers = {
+                    Authorization: `Bearer ${accessToken.value}`,
+                    ...options.headers,
+                }
             }
         },
         onResponseError({ request, response, options }) {},
