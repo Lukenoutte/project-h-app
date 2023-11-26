@@ -1,37 +1,29 @@
 import { defineStore } from 'pinia'
-import axios from '../configs/axiosConfig'
+import { useMyFetch } from '~/composables/useMyFetch'
 
 export const useAuthenticationStore = defineStore('authentication', () => {
     const isAuthenticated = ref(false)
-    const accessToken = ref(null)
-    const refreshToken = ref(null)
     const isLoadingAuthentication = ref(false)
     const router = useRouter()
 
-    function setAccessToken(value) {
-        accessToken.value = value
-        localStorage.setItem('accessToken', value)
-    }
-    function setRefreshToken(value) {
-        refreshToken.value = value
-        localStorage.setItem('refreshToken', value)
-    }
-    function setIsAuthenticated(value) {
-        isAuthenticated.value = value
-    }
-    function clearTokens() {
-        localStorage.removeItem('accessToken')
-        localStorage.removeItem('refreshToken')
+    function setTokens({ accessToken, refreshToken }) {
+        const refreshTokenCookie = useCookie('refreshToken')
+        const accessTokenCookie = useCookie('accessToken')
+        refreshTokenCookie.value = refreshToken
+        accessTokenCookie.value = accessToken
     }
 
     async function signIn({ email, password }) {
         try {
             isLoadingAuthentication.value = true
-            const { data } = await axios.post('/signin', { email, password })
-            const { accessToken, refreshToken } = data
-            setAccessToken(accessToken)
-            setRefreshToken(refreshToken)
-            setIsAuthenticated(true)
+            const { data, error } = await useMyFetch('/signin', {
+                method: 'POST',
+                body: { email, password },
+            })
+            if (error) throw new Error(error.statusMessage)
+            const { accessToken, refreshToken } = data.value
+            setTokens({ accessToken, refreshToken })
+            isAuthenticated.value = true
             router.push('/dashboard')
         } catch (error) {
             useToastError('Não foi possivel fazer entrar.')
@@ -43,9 +35,13 @@ export const useAuthenticationStore = defineStore('authentication', () => {
     async function signOut() {
         try {
             isLoadingAuthentication.value = true
-            clearTokens()
-            await axios.delete('/signout')
+            const { error } = await useMyFetch('/signout', {
+                method: 'DELETE',
+            })
+            if (error) throw new Error(error.statusMessage)
+            setTokens({ accessToken: null, refreshToken: null })
             router.push('/signin')
+            isAuthenticated.value = false
         } catch (error) {
             useToastError('Não foi possivel sair.')
         } finally {
@@ -56,7 +52,11 @@ export const useAuthenticationStore = defineStore('authentication', () => {
     async function signUp({ name, email, password }) {
         try {
             isLoadingAuthentication.value = true
-            await axios.post('/signup/user', { name, email, password })
+            const { error } = await useMyFetch('/signup/user', {
+                method: 'POST',
+                body: JSON.stringify({ name, email, password }),
+            })
+            if (error) throw new Error(error.statusMessage)
             router.push('/signin')
         } catch (error) {
             useToastError('Não foi possivel criar uma conta.')
@@ -67,14 +67,9 @@ export const useAuthenticationStore = defineStore('authentication', () => {
 
     return {
         isAuthenticated,
-        accessToken,
-        refreshToken,
-        setAccessToken,
-        setIsAuthenticated,
-        setRefreshToken,
-        clearTokens,
         signIn,
         signOut,
         signUp,
+        isLoadingAuthentication,
     }
 })

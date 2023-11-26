@@ -14,10 +14,4 @@
     </div>
 </template>
 
-<script setup>
-const { setIsAuthenticated } = useAuthenticationStore()
-onMounted(() => {
-    const accessTokenExist = !!localStorage.getItem('accessToken')
-    setIsAuthenticated(accessTokenExist)
-})
-</script>
+<script setup></script>

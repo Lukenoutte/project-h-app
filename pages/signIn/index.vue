@@ -1,10 +1,10 @@
 <template>
     <div class="px-5 md:flex md:justify-center md:items-center h-full">
         <div class="w-full md:w-[300px]">
-            <span v-if="!isLoadingSignIn" class="font-semibold">{{ $t('sign-in') }}</span>
+            <span v-if="!isLoadingAuthentication" class="font-semibold">{{ $t('sign-in') }}</span>
             <USkeleton v-else class="h-[20px] w-[50px]" />
             <UForm :state="values" @submit="submitSignIn">
-                <UCard class="mt-4 w-full" v-if="!isLoadingSignIn">
+                <UCard class="mt-4 w-full" v-if="!isLoadingAuthentication">
                     <UFormGroup name="email" :error="!!errors.email">
                         <UInput color="gray" variant="outline" v-bind="email" placeholder="E-mail" />
                     </UFormGroup>
@@ -13,7 +13,7 @@
                     </UFormGroup>
                 </UCard>
                 <USkeleton v-else class="mt-4 h-[110px] w-[100%]" />
-                <div class="column mt-3" v-if="!isLoadingSignIn">
+                <div class="column mt-3" v-if="!isLoadingAuthentication">
                     <UButton
                         block
                         type="submit"
@@ -45,8 +45,7 @@
 <script setup>
 import { useForm } from 'vee-validate'
 import * as yup from 'yup'
-import { ref } from 'vue'
-const isLoadingSignIn = ref(false)
+
 const validationSchema = yup.object({
     email: yup.string().required().email(),
     password: yup.string().min(6).required(),
@@ -58,6 +57,7 @@ const email = defineInputBinds('email')
 const password = defineInputBinds('password')
 
 const { signIn } = useAuthenticationStore()
+const { isLoadingAuthentication } = storeToRefs(useAuthenticationStore())
 
 const submitSignIn = async () => {
     const validationErrors = await validate()

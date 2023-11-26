@@ -43,7 +43,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import { useForm } from 'vee-validate'
 import * as yup from 'yup'
 
