@@ -14,4 +14,10 @@
     </div>
 </template>
 
-<script setup></script>
+<script setup>
+const { executeRefeshTokenBeforeExpire } = useAuthenticationStore()
+onMounted(() => {
+    const accessTokenExpireAt = useCookie('accessTokenExpireAt')
+    if (accessTokenExpireAt.value) executeRefeshTokenBeforeExpire()
+})
+</script>

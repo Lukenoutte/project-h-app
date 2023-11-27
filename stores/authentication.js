@@ -80,7 +80,7 @@ export const useAuthenticationStore = defineStore('authentication', () => {
             if (error.value) throw new Error(error.value.statusMessage)
             const { accessToken } = data.value
             setTokens({ accessToken, refreshToken: refreshTokenCookie.value })
-            executeRefeshTokenBeforeExpire()
+            setTimeout(executeRefeshTokenBeforeExpire, 3000)
         } catch (error) {
             console.error(error)
             setTokens({ accessToken: null, refreshToken: null })
