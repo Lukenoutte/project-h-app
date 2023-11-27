@@ -9,8 +9,10 @@ export const useAuthenticationStore = defineStore('authentication', () => {
     function setTokens({ accessToken, refreshToken }) {
         const refreshTokenCookie = useCookie('refreshToken')
         const accessTokenCookie = useCookie('accessToken')
+        const accessTokenExpireAt = useCookie('accessTokenExpireAt')
         refreshTokenCookie.value = refreshToken
         accessTokenCookie.value = accessToken
+        accessTokenExpireAt.value = getExpiryTime(accessToken)
     }
 
     async function signIn({ email, password }) {
@@ -26,7 +28,7 @@ export const useAuthenticationStore = defineStore('authentication', () => {
             isAuthenticated.value = true
             router.push('/dashboard')
         } catch (error) {
-            console.log(error)
+            console.error(error)
             useToastError('Não foi possivel entrar.')
         } finally {
             isLoadingAuthentication.value = false
@@ -44,6 +46,7 @@ export const useAuthenticationStore = defineStore('authentication', () => {
             })
             if (error.value) throw new Error(error.value.statusMessage)
         } catch (error) {
+            console.error(error)
             useToastError('Não foi possivel sair.')
         } finally {
             isLoadingAuthentication.value = false
@@ -55,15 +58,54 @@ export const useAuthenticationStore = defineStore('authentication', () => {
             isLoadingAuthentication.value = true
             const { error } = await useMyFetch('/signup/user', {
                 method: 'POST',
-                body: JSON.stringify({ name, email, password }),
+                body: { name, email, password },
             })
             if (error.value) throw new Error(error.value.statusMessage)
             router.push('/signin')
         } catch (error) {
+            console.error(error)
             useToastError('Não foi possivel criar uma conta.')
         } finally {
             isLoadingAuthentication.value = false
         }
+    }
+
+    async function refreshToken() {
+        try {
+            const refreshTokenCookie = useCookie('refreshToken')
+            const { data, error } = await useMyFetch('/token/refresh', {
+                method: 'PUT',
+                body: { refreshToken: refreshTokenCookie.value },
+            })
+            if (error.value) throw new Error(error.value.statusMessage)
+            const { accessToken } = data.value
+            setTokens({ accessToken, refreshToken: refreshTokenCookie.value })
+            executeRefeshTokenBeforeExpire()
+        } catch (error) {
+            console.error(error)
+            setTokens({ accessToken: null, refreshToken: null })
+            router.push('/signin')
+        }
+    }
+
+    function getExpiryTime(token) {
+        if (!token) return
+        const parts = token.split('.')
+        const payload = parts[1]
+        const decodedPayload = atob(payload)
+        const jsonPayload = JSON.parse(decodedPayload)
+        return jsonPayload.exp
+    }
+
+    function executeRefeshTokenBeforeExpire() {
+        if (!isAuthenticated.value) return
+        const accessTokenExpireAt = useCookie('accessTokenExpireAt')
+        const expiryTime = parseInt(accessTokenExpireAt.value)
+        const expiryDate = new Date(expiryTime * 1000)
+        const now = new Date()
+        const timeRemaining = expiryDate - now
+        if (timeRemaining < 300000) refreshToken()
+        else setTimeout(executeRefeshTokenBeforeExpire, 600000)
     }
 
     return {
@@ -72,5 +114,7 @@ export const useAuthenticationStore = defineStore('authentication', () => {
         signOut,
         signUp,
         isLoadingAuthentication,
+        refreshToken,
+        executeRefeshTokenBeforeExpire,
     }
 })

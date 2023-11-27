@@ -9,7 +9,13 @@ export const useMyFetch = (request, opts) => {
                 }
             }
         },
-        onResponseError({ request, response, options }) {},
+        async onResponseError({ request, response, options }) {
+            const { isAuthenticated } = storeToRefs(useAuthenticationStore())
+            const { signOut } = useAuthenticationStore()
+            if (isAuthenticated.value && response.status === 401) {
+                await signOut()
+            }
+        },
         baseURL: 'http://localhost:3002',
         ...opts,
     })
