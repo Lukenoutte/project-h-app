@@ -11,5 +11,12 @@
   "comfirm-password": "Comfirm password",
   "back": "Back",
   "page-not-found": "Oops, Page not found",
-  "continue": "Continue"
+  "continue": "Continue",
+  "profile": "Profile",
+  "sign-out": "Sign Out",
+  "settings": "Settings",
+  "signed-in-as": "Signed in as",
+  "dashboard": "Dashboard",
+  "store": "Store",
+  "orders": "Orders"
 }

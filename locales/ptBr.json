@@ -11,5 +11,12 @@
   "comfirm-password": "Comfirmar senha",
   "back": "Voltar",
   "page-not-found": "iih, tá perdido? Página não encontrada",
-  "continue": "Continuar"
+  "continue": "Continuar",
+  "profile": "Perfil",
+  "sign-out": "Sair",
+  "settings": "Configurações",
+  "signed-in-as": "Entrou como",
+  "dashboard": "Principal",
+  "store": "Loja",
+  "orders": "Pedidos"
 }

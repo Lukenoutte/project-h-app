@@ -36,7 +36,7 @@
                 />
                 <template #account="{ item }">
                     <div class="text-left">
-                        <p>Signed in as</p>
+                        <p>{{ $t('signed-in-as') }}</p>
                         <p class="truncate font-medium text-gray-900 dark:text-white">
                             {{ item.label }}
                         </p>
@@ -59,7 +59,7 @@
 </template>
 
 <script setup>
-const { locale } = useI18n()
+const { locale, t: translate } = useI18n()
 const localesList = [
     { id: 'pt-br', label: 'PT-BR', icon: 'i-heroicons-fire-solid' },
     { id: 'en', label: 'EN', icon: 'i-heroicons-fire-solid' },
@@ -80,7 +80,11 @@ const { setMenuMobileState } = useGlobalStore()
 const { signOut } = useAuthenticationStore()
 const { isAuthenticated } = storeToRefs(useAuthenticationStore())
 
-const itemsDropDownProfile = [
+const profileLabel = computed(() => translate('profile'))
+const settingsLabel = computed(() => translate('settings'))
+const signOutLabel = computed(() => translate('sign-out'))
+
+const itemsDropDownProfile = computed(() => [
     [
         {
             label: 'ben@example.com',
@@ -90,27 +94,27 @@ const itemsDropDownProfile = [
     ],
     [
         {
-            label: 'Profile',
+            label: profileLabel.value,
             avatar: {
                 src: 'https://avatars.githubusercontent.com/u/739984?v=4',
             },
         },
 
         {
-            label: 'Settings',
+            label: settingsLabel.value,
             icon: 'i-heroicons-cog-8-tooth',
         },
     ],
     [
         {
-            label: 'Sign out',
+            label: signOutLabel.value,
             icon: 'i-heroicons-arrow-left-on-rectangle',
             click: () => {
                 signOut()
             },
         },
     ],
-]
+])
 </script>
 
 <style></style>

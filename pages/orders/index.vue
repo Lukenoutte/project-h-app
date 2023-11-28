@@ -1,5 +1,5 @@
 <template>
-    <UCard> Reservation </UCard>
+    <UCard> Orders </UCard>
 </template>
 
 <script setup>

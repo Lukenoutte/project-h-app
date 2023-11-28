@@ -31,7 +31,9 @@ export const useAuthenticationStore = defineStore('authentication', () => {
             console.error(error)
             useToastError('Não foi possivel entrar.')
         } finally {
-            isLoadingAuthentication.value = false
+            setTimeout(() => {
+                isLoadingAuthentication.value = false
+            }, 1000)
         }
     }
 
@@ -80,7 +82,7 @@ export const useAuthenticationStore = defineStore('authentication', () => {
             if (error.value) throw new Error(error.value.statusMessage)
             const { accessToken } = data.value
             setTokens({ accessToken, refreshToken: refreshTokenCookie.value })
-            setTimeout(executeRefeshTokenBeforeExpire, 3000)
+            setTimeout(executeRefeshTokenBeforeExpire, 2000)
         } catch (error) {
             console.error(error)
             setTokens({ accessToken: null, refreshToken: null })
