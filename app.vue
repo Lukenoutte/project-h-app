@@ -6,3 +6,7 @@
         <UNotifications />
     </div>
 </template>
+
+<script setup>
+useHead({ title: 'Project H' })
+</script>

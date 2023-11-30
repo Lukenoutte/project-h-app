@@ -1,75 +1,24 @@
-# Nuxt 3 Minimal Starter
+# Project H
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## Dependencies
 
-## Setup
+-   Nuxt 3
+-   Vue 3
 
-Make sure to install the dependencies:
+# Install the dependencies
 
-```bash
-# npm
-npm install
+-   `npm install`
 
-# pnpm
-pnpm install
+## Commands
 
-# yarn
-yarn install
+-   `npm run dev` - Starts the development server
+-   `npm run build` - Builds the project for production
+-   `npm run start` - Starts the production server
 
-# bun
-bun install
-```
+## Documentation
 
-## Development Server
+For more information on how to use and extend this project, refer to the [official Nuxt documentation](https://nuxtjs.org/docs).
 
-Start the development server on `http://localhost:3000`:
+## License
 
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+[MIT](https://choosealicense.com/licenses/mit/)

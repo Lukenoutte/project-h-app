@@ -107,7 +107,7 @@ export const useAuthenticationStore = defineStore('authentication', () => {
         const now = new Date()
         const timeRemaining = expiryDate - now
         if (timeRemaining < 300000) refreshToken()
-        else setTimeout(executeRefeshTokenBeforeExpire, 600000)
+        else setTimeout(executeRefeshTokenBeforeExpire, 660000)
     }
 
     return {
