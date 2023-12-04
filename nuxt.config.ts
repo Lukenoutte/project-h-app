@@ -5,7 +5,8 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxtjs/color-mode',
     '@nuxtjs/i18n',
-    'nuxt-security'
+    'nuxt-security',
+    'nuxt-vitest'
   ],
   devtools: { enabled: true },
   pinia: {
