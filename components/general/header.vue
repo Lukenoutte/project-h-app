@@ -12,22 +12,29 @@
             </USelectMenu>
             <UButton
                 class="mr-4"
+                data-testid="dark-mode"
                 color="white"
                 :ui="{ rounded: 'rounded-xl' }"
                 :title="$t('dark-mode')"
                 :icon="isDarkMode ? 'i-heroicons-sun-solid' : 'i-heroicons-moon-solid'"
                 @click="setColorTheme(isDarkMode ? 'light' : 'dark')"
             />
-            <NuxtLink to="/signin" v-if="!isAuthenticated">
+            <div v-if="!isAuthenticated" data-testid="sign-in">
                 <UButton
+                    to="/signin"
                     :label="$t('sign-in')"
                     :title="$t('sign-in')"
                     class="px-7 py-2"
                     color="white"
                     :ui="{ rounded: 'rounded-xl' }"
                 />
-            </NuxtLink>
-            <UDropdown v-else :items="itemsDropDownProfile" :popper="{ placement: 'bottom-start' }">
+            </div>
+            <UDropdown
+                v-else
+                data-testid="user-menu"
+                :items="itemsDropDownProfile"
+                :popper="{ placement: 'bottom-start' }"
+            >
                 <UButton
                     color="white"
                     icon="i-heroicons-user-solid"
