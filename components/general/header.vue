@@ -4,7 +4,13 @@
             <UIcon class="text-3xl text-primary cursor-pointer" name="i-heroicons-fire-solid" />
         </NuxtLink>
         <div class="flex items-center hidden lg:flex">
-            <USelectMenu class="mr-4 w-[110px]" value-attribute="id" v-model="locale" :options="localesList">
+            <USelectMenu
+                class="mr-4 w-[110px]"
+                value-attribute="id"
+                v-model="locale"
+                :options="localesList"
+                data-testid="locale-select"
+            >
                 <template #label>
                     <UIcon :name="currentLocale.icon" class="w-4 h-4" />
                     {{ currentLocale.label }}
@@ -19,16 +25,16 @@
                 :icon="isDarkMode ? 'i-heroicons-sun-solid' : 'i-heroicons-moon-solid'"
                 @click="setColorTheme(isDarkMode ? 'light' : 'dark')"
             />
-            <div v-if="!isAuthenticated" data-testid="sign-in">
-                <UButton
-                    to="/signin"
-                    :label="$t('sign-in')"
-                    :title="$t('sign-in')"
-                    class="px-7 py-2"
-                    color="white"
-                    :ui="{ rounded: 'rounded-xl' }"
-                />
-            </div>
+            <UButton
+                v-if="!isAuthenticated"
+                to="/signin"
+                data-testid="sign-in"
+                :label="$t('sign-in')"
+                :title="$t('sign-in')"
+                class="px-7 py-2"
+                color="white"
+                :ui="{ rounded: 'rounded-xl' }"
+            />
             <UDropdown
                 v-else
                 data-testid="user-menu"

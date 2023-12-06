@@ -4,10 +4,10 @@ import enTranslations from '../locales/en.json'
 import ptBrTranslations from '../locales/ptBr.json'
 
 const i18n = createI18n({
-    locale: 'en',
+    locale: 'pt-br',
     messages: {
         en: enTranslations,
-        'pr-br': ptBrTranslations,
+        'pt-br': ptBrTranslations,
     },
 })
 
