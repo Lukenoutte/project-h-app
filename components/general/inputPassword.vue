@@ -2,6 +2,7 @@
     <UInput
         color="gray"
         variant="outline"
+        data-testid="input-password"
         class="mt-2"
         :ui="{ icon: { trailing: { pointer: '' } } }"
         :placeholder="placeholder"

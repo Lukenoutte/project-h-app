@@ -7,7 +7,7 @@ const useAuthenticationStore = defineStore('authentication', {
     state: () => ({ isAuthenticated: false }),
 })
 
-describe('Header tests', () => {
+describe('header tests', async () => {
     it('should mount header', async () => {
         const wrapper = shallowMount(Header)
         expect(wrapper).toBeTruthy()
@@ -59,6 +59,22 @@ describe('Header tests', () => {
         const buttonSignIn = wrapper.find('[data-testid="sign-in"]')
         expect(localeDropDown.attributes().modelvalue).toBe('pt-br')
         expect(buttonSignIn.attributes().title).toBe('Entrar')
+    })
+    it('should have the correct translation to english', async () => {
+        const pinia = createTestingPinia()
+        const authenticationStore = useAuthenticationStore(pinia)
+        authenticationStore.$state.isAuthenticated = false
+        const wrapper = shallowMount(Header, {
+            global: {
+                plugins: [pinia],
+            },
+        })
+        wrapper.vm.locale = 'en'
+        await wrapper.vm.$nextTick()
+        const localeDropDown = wrapper.find('[data-testid="locale-select"]')
+        const buttonSignIn = wrapper.find('[data-testid="sign-in"]')
+        expect(localeDropDown.attributes().modelvalue).toBe('en')
+        expect(buttonSignIn.attributes().title).toBe('Sign In')
     })
     it('should have the correct translation to english', async () => {
         const pinia = createTestingPinia()

@@ -1,21 +1,32 @@
 <template>
-    <div class="px-5 md:flex md:justify-center md:items-center h-full">
+    <div class="px-5 md:flex md:justify-center md:items-center h-full" data-testid="input-wrapper">
         <div class="w-full md:w-[300px]">
             <span v-if="!isLoadingAuthentication" class="font-semibold">{{ $t('sign-in') }}</span>
             <USkeleton v-else class="h-[20px] w-[50px]" />
             <UForm :state="values" @submit="submitSignIn">
                 <UCard class="mt-4 w-full" v-if="!isLoadingAuthentication">
                     <UFormGroup name="email" :error="!!errors.email">
-                        <UInput color="gray" variant="outline" v-bind="email" placeholder="E-mail" />
+                        <UInput
+                            data-testid="email-input"
+                            color="gray"
+                            variant="outline"
+                            v-bind="email"
+                            placeholder="E-mail"
+                        />
                     </UFormGroup>
                     <UFormGroup name="password" :error="!!errors.password">
-                        <GeneralInputPassword v-bind="password" :placeholder="$t('password')" />
+                        <GeneralInputPassword
+                            data-testid="password-input"
+                            v-bind="password"
+                            :placeholder="$t('password')"
+                        />
                     </UFormGroup>
                 </UCard>
                 <USkeleton v-else class="mt-4 h-[110px] w-[100%]" />
                 <div class="column mt-3" v-if="!isLoadingAuthentication">
                     <UButton
                         block
+                        data-testid="signin-submit"
                         type="submit"
                         :label="$t('sign-in')"
                         :title="$t('sign-in')"
