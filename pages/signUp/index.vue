@@ -1,20 +1,41 @@
 <template>
-    <div class="px-5 md:flex md:justify-center md:items-center h-full">
+    <div class="px-5 md:flex md:justify-center md:items-center h-full" data-testid="signup-wrapper">
         <div class="w-full md:w-[500px]">
             <span class="font-semibold">{{ $t('sign-up') }}</span>
             <UForm :state="values" @submit="submitSignUp">
                 <UCard class="mt-4 w-full">
                     <UFormGroup name="name" :error="!!errors.name">
-                        <UInput color="gray" variant="outline" v-bind="name" :placeholder="$t('name')" />
+                        <UInput
+                            data-testid="name-input"
+                            color="gray"
+                            variant="outline"
+                            v-bind="name"
+                            :placeholder="$t('name')"
+                        />
                     </UFormGroup>
                     <UFormGroup name="email" :error="!!errors.email">
-                        <UInput color="gray" variant="outline" class="mt-2" v-bind="email" placeholder="E-mail" />
+                        <UInput
+                            color="gray"
+                            data-testid="email-input"
+                            variant="outline"
+                            class="mt-2"
+                            v-bind="email"
+                            placeholder="E-mail"
+                        />
                     </UFormGroup>
                     <UFormGroup name="password" :error="!!errors.password">
-                        <GeneralInputPassword v-bind="password" :placeholder="$t('password')" />
+                        <GeneralInputPassword
+                            data-testid="password-input"
+                            v-bind="password"
+                            :placeholder="$t('password')"
+                        />
                     </UFormGroup>
                     <UFormGroup name="comfirmPass" :error="!!errors.comfirmPass">
-                        <GeneralInputPassword v-bind="comfirmPass" :placeholder="$t('comfirm-password')" />
+                        <GeneralInputPassword
+                            data-testid="comfirm-pass-input"
+                            v-bind="comfirmPass"
+                            :placeholder="$t('comfirm-password')"
+                        />
                     </UFormGroup>
                 </UCard>
                 <div class="flex justify-between">
@@ -67,6 +88,11 @@ const { signUp } = useAuthenticationStore()
 const submitSignUp = async () => {
     const validationErrors = await validate()
     if (!validationErrors.valid) return
-    signUp()
+    signUp({
+        name: values.name,
+        email: values.email,
+        password: values.password,
+        confirmPassword: values.confirmPassword,
+    })
 }
 </script>
