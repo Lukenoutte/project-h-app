@@ -1,5 +1,5 @@
 <template>
-    <div class="px-5 md:flex md:justify-center md:items-center h-full" data-testid="input-wrapper">
+    <div class="px-5 md:flex md:justify-center md:items-center h-full" data-testid="signin-wrapper">
         <div class="w-full md:w-[300px]">
             <span v-if="!isLoadingAuthentication" class="font-semibold">{{ $t('sign-in') }}</span>
             <USkeleton v-else class="h-[20px] w-[50px]" />
