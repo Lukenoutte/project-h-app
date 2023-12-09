@@ -21,9 +21,9 @@ describe('input password tests', async () => {
     })
     it('should have the correct icon', async () => {
         const wrapper = shallowMount(InputPassword)
-        expect(wrapper.vm.getIconToShow()).toBe('i-heroicons-eye-solid')
+        expect(wrapper.vm.getIconToShow()).toBe('i-heroicons-eye-slash-solid')
         wrapper.vm.inputPasswordType = 'text'
         await wrapper.vm.$nextTick()
-        expect(wrapper.vm.getIconToShow()).toBe('i-heroicons-eye-slash-solid')
+        expect(wrapper.vm.getIconToShow()).toBe('i-heroicons-eye-solid')
     })
 })

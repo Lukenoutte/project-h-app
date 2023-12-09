@@ -28,7 +28,7 @@ const setInputType = () => {
 }
 
 const getIconToShow = () => {
-    if (inputPasswordType.value === passwordType) return 'i-heroicons-eye-solid'
-    if (inputPasswordType.value === textType) return 'i-heroicons-eye-slash-solid'
+    if (inputPasswordType.value === passwordType) return 'i-heroicons-eye-slash-solid'
+    if (inputPasswordType.value === textType) return 'i-heroicons-eye-solid'
 }
 </script>

@@ -64,16 +64,30 @@
 </template>
 
 <script setup>
-import { useForm } from 'vee-validate'
+import { useForm, configure } from 'vee-validate'
 import * as yup from 'yup'
 
 definePageMeta({ middleware: ['guest'] })
 
+configure({
+    validateOnBlur: false,
+    validateOnChange: false,
+    validateOnModelUpdate: false,
+})
+
 const validationSchema = yup.object({
     name: yup.string().required(),
     email: yup.string().required().email(),
-    password: yup.string().min(6).required(),
-    comfirmPass: yup.string().min(6).required(),
+    password: yup
+        .string()
+        .min(6)
+        .required()
+        .oneOf([yup.ref('comfirmPass'), null], 'passwords must match'),
+    comfirmPass: yup
+        .string()
+        .min(6)
+        .required()
+        .oneOf([yup.ref('password'), null], 'passwords must match'),
 })
 const { defineInputBinds, values, errors, validate } = useForm({
     validationSchema,
@@ -95,4 +109,12 @@ const submitSignUp = async () => {
         confirmPassword: values.confirmPassword,
     })
 }
+
+onUnmounted(() => {
+    configure({
+        validateOnBlur: true,
+        validateOnChange: true,
+        validateOnModelUpdate: true,
+    })
+})
 </script>
