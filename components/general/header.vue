@@ -1,9 +1,15 @@
 <template>
     <div class="h-16 flex items-center px-5 justify-between">
-        <NuxtLink to="/">
-            <UIcon class="text-3xl text-primary cursor-pointer" name="i-heroicons-fire-solid" />
+        <NuxtLink to="/" v-if="!isLoadingGlobal">
+            <div class="flex items-center">
+                <UIcon class="text-3xl text-primary cursor-pointer mr-2" name="i-heroicons-fire-solid" />
+                <strong class="text-primary">Vendur</strong>
+            </div>
         </NuxtLink>
-        <div class="flex items-center hidden lg:flex">
+        <div v-else>
+            <USkeleton class="h-8 w-[150px]" />
+        </div>
+        <div class="flex items-center hidden lg:flex" v-if="!isLoadingGlobal">
             <USelectMenu
                 class="mr-4 w-[110px]"
                 value-attribute="id"
@@ -57,6 +63,9 @@
                 </template>
             </UDropdown>
         </div>
+        <div v-else>
+            <USkeleton class="h-8 w-[300px]" />
+        </div>
         <div class="block lg:hidden">
             <UButton
                 :padded="false"
@@ -81,6 +90,8 @@ const currentLocale = computed(() => localesList.find((current) => current.id ==
 const setColorTheme = (newTheme) => {
     useColorMode().preference = newTheme
 }
+
+const { isLoadingGlobal } = storeToRefs(useGlobalStore())
 
 const isDarkMode = computed(() => {
     const colorMode = useColorMode().preference

@@ -9,7 +9,8 @@
                             data-testid="name-input"
                             color="gray"
                             variant="outline"
-                            v-bind="name"
+                            v-model="name"
+                            v-bind="nameProps"
                             :placeholder="$t('name')"
                         />
                     </UFormGroup>
@@ -19,22 +20,25 @@
                             data-testid="email-input"
                             variant="outline"
                             class="mt-2"
-                            v-bind="email"
+                            v-model="email"
+                            v-bind="emailProps"
                             placeholder="E-mail"
                         />
                     </UFormGroup>
                     <UFormGroup name="password" :error="!!errors.password">
                         <GeneralInputPassword
                             data-testid="password-input"
-                            v-bind="password"
+                            v-model="password"
+                            v-bind="passwordProps"
                             :placeholder="$t('password')"
                         />
                     </UFormGroup>
-                    <UFormGroup name="comfirmPass" :error="!!errors.comfirmPass">
+                    <UFormGroup name="confirmPass" :error="!!errors.confirmPass">
                         <GeneralInputPassword
-                            data-testid="comfirm-pass-input"
-                            v-bind="comfirmPass"
-                            :placeholder="$t('comfirm-password')"
+                            data-testid="confirm-pass-input"
+                            v-model="confirmPass"
+                            v-bind="confirmPassProps"
+                            :placeholder="$t('confirm-password')"
                         />
                     </UFormGroup>
                 </UCard>
@@ -82,20 +86,20 @@ const validationSchema = yup.object({
         .string()
         .min(6)
         .required()
-        .oneOf([yup.ref('comfirmPass'), null], 'passwords must match'),
-    comfirmPass: yup
+        .oneOf([yup.ref('confirmPass'), null], 'passwords must match'),
+    confirmPass: yup
         .string()
         .min(6)
         .required()
         .oneOf([yup.ref('password'), null], 'passwords must match'),
 })
-const { defineInputBinds, values, errors, validate } = useForm({
+const { defineField, values, errors, validate } = useForm({
     validationSchema,
 })
-const name = defineInputBinds('name')
-const email = defineInputBinds('email')
-const password = defineInputBinds('password')
-const comfirmPass = defineInputBinds('comfirmPass')
+const [name, nameProps] = defineField('name')
+const [email, emailProps] = defineField('email')
+const [password, passwordProps] = defineField('password')
+const [confirmPass, confirmPassProps] = defineField('confirmPass')
 
 const { signUp } = useAuthenticationStore()
 
@@ -113,8 +117,8 @@ const submitSignUp = async () => {
 onUnmounted(() => {
     configure({
         validateOnBlur: true,
-        validateOnChange: true,
-        validateOnModelUpdate: true,
+        validateOnChange: false,
+        validateOnModelUpdate: false,
     })
 })
 </script>

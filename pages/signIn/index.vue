@@ -10,14 +10,16 @@
                             data-testid="email-input"
                             color="gray"
                             variant="outline"
-                            v-bind="email"
+                            v-model="email"
+                            v-bind="emailProps"
                             placeholder="E-mail"
                         />
                     </UFormGroup>
                     <UFormGroup name="password" :error="!!errors.password">
                         <GeneralInputPassword
                             data-testid="password-input"
-                            v-bind="password"
+                            v-model="password"
+                            v-bind="passwordProps"
                             :placeholder="$t('password')"
                         />
                     </UFormGroup>
@@ -54,8 +56,14 @@
 </template>
 
 <script setup>
-import { useForm } from 'vee-validate'
+import { useForm, configure } from 'vee-validate'
 import * as yup from 'yup'
+
+configure({
+    validateOnBlur: true,
+    validateOnChange: false,
+    validateOnModelUpdate: false,
+})
 
 definePageMeta({ middleware: ['guest'] })
 
@@ -63,11 +71,11 @@ const validationSchema = yup.object({
     email: yup.string().required().email(),
     password: yup.string().min(6).required(),
 })
-const { defineInputBinds, values, errors, validate } = useForm({
+const { defineField, values, errors, validate } = useForm({
     validationSchema,
 })
-const email = defineInputBinds('email')
-const password = defineInputBinds('password')
+const [email, emailProps] = defineField('email')
+const [password, passwordProps] = defineField('password')
 
 const { signIn } = useAuthenticationStore()
 const { isLoadingAuthentication } = storeToRefs(useAuthenticationStore())

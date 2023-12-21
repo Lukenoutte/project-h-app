@@ -16,7 +16,7 @@ export const useMyFetch = (request, opts) => {
                 await signOut()
             }
         },
-        baseURL: 'http://localhost:3002',
+        baseURL: 'http://localhost:3003',
         ...opts,
     })
 }

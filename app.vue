@@ -8,5 +8,6 @@
 </template>
 
 <script setup>
-useHead({ title: 'Project H' })
+useHead({ title: 'Vendur' })
+useSubdomain()
 </script>

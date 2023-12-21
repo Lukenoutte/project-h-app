@@ -7,13 +7,24 @@ const useAuthenticationStore = defineStore('authentication', {
     state: () => ({ isAuthenticated: false }),
 })
 
+const useGlobalStore = defineStore('global', {
+    state: () => ({ isLoadingGlobal: true }),
+})
+
 describe('header tests', async () => {
     it('should mount header', async () => {
         const wrapper = shallowMount(Header)
         expect(wrapper).toBeTruthy()
     })
     it('should have a button to toggle dark mode', async () => {
-        const wrapper = shallowMount(Header)
+        const pinia = createTestingPinia()
+        const globalStore = useGlobalStore(pinia)
+        globalStore.$state.isLoadingGlobal = false
+        const wrapper = shallowMount(Header, {
+            global: {
+                plugins: [pinia],
+            },
+        })
         const buttonDarkMode = wrapper.find('[data-testid="dark-mode"]')
         expect(buttonDarkMode.exists()).toBe(true)
     })
@@ -38,6 +49,8 @@ describe('header tests', async () => {
         const pinia = createTestingPinia()
         const authenticationStore = useAuthenticationStore(pinia)
         authenticationStore.$state.isAuthenticated = true
+        const globalStore = useGlobalStore(pinia)
+        globalStore.$state.isLoadingGlobal = false
         const wrapper = shallowMount(Header, {
             global: {
                 plugins: [pinia],
@@ -50,6 +63,8 @@ describe('header tests', async () => {
         const pinia = createTestingPinia()
         const authenticationStore = useAuthenticationStore(pinia)
         authenticationStore.$state.isAuthenticated = false
+        const globalStore = useGlobalStore(pinia)
+        globalStore.$state.isLoadingGlobal = false
         const wrapper = shallowMount(Header, {
             global: {
                 plugins: [pinia],
@@ -64,22 +79,8 @@ describe('header tests', async () => {
         const pinia = createTestingPinia()
         const authenticationStore = useAuthenticationStore(pinia)
         authenticationStore.$state.isAuthenticated = false
-        const wrapper = shallowMount(Header, {
-            global: {
-                plugins: [pinia],
-            },
-        })
-        wrapper.vm.locale = 'en'
-        await wrapper.vm.$nextTick()
-        const localeDropDown = wrapper.find('[data-testid="locale-select"]')
-        const buttonSignIn = wrapper.find('[data-testid="sign-in"]')
-        expect(localeDropDown.attributes().modelvalue).toBe('en')
-        expect(buttonSignIn.attributes().title).toBe('Sign In')
-    })
-    it('should have the correct translation to english', async () => {
-        const pinia = createTestingPinia()
-        const authenticationStore = useAuthenticationStore(pinia)
-        authenticationStore.$state.isAuthenticated = false
+        const globalStore = useGlobalStore(pinia)
+        globalStore.$state.isLoadingGlobal = false
         const wrapper = shallowMount(Header, {
             global: {
                 plugins: [pinia],
