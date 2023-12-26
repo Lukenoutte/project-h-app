@@ -66,7 +66,7 @@
         <div v-else>
             <USkeleton class="h-8 w-[300px]" />
         </div>
-        <div class="block lg:hidden">
+        <div class="block lg:hidden" v-if="!isLoadingGlobal">
             <UButton
                 :padded="false"
                 color="black"

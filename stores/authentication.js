@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { useMyFetch } from '~/composables/useMyFetch'
+import { useMyAxios } from '~/composables/useMyAxios'
 
 export const useAuthenticationStore = defineStore('authentication', () => {
     const isAuthenticated = ref(false)
@@ -18,12 +18,8 @@ export const useAuthenticationStore = defineStore('authentication', () => {
     async function signIn({ email, password }) {
         try {
             isLoadingAuthentication.value = true
-            const { data, error } = await useMyFetch('/signin', {
-                method: 'POST',
-                body: { email, password },
-            })
-            if (error.value) throw new Error(error.value.statusMessage)
-            const { accessToken, refreshToken } = data.value
+            const { data } = await useMyAxios().post('/signin', { email, password })
+            const { accessToken, refreshToken } = data
             setTokens({ accessToken, refreshToken })
             isAuthenticated.value = true
             router.push('/dashboard')
@@ -43,10 +39,7 @@ export const useAuthenticationStore = defineStore('authentication', () => {
             router.push('/signin')
             isLoadingAuthentication.value = true
             isAuthenticated.value = false
-            const { error } = await useMyFetch('/signout', {
-                method: 'DELETE',
-            })
-            if (error.value) throw new Error(error.value.statusMessage)
+            await useMyAxios().delete('/signout')
         } catch (error) {
             console.error(error)
             useToastError('Não foi possivel sair.')
@@ -58,11 +51,7 @@ export const useAuthenticationStore = defineStore('authentication', () => {
     async function signUp({ name, email, password }) {
         try {
             isLoadingAuthentication.value = true
-            const { error } = await useMyFetch('/signup/user', {
-                method: 'POST',
-                body: { name, email, password },
-            })
-            if (error.value) throw new Error(error.value.statusMessage)
+            await useMyAxios().post('/signup/user', { name, email, password })
             router.push('/signin')
         } catch (error) {
             console.error(error)
@@ -75,12 +64,8 @@ export const useAuthenticationStore = defineStore('authentication', () => {
     async function refreshToken() {
         try {
             const refreshTokenCookie = useCookie('refreshToken')
-            const { data, error } = await useMyFetch('/token/refresh', {
-                method: 'PUT',
-                body: { refreshToken: refreshTokenCookie.value },
-            })
-            if (error.value) throw new Error(error.value.statusMessage)
-            const { accessToken } = data.value
+            const { data } = await useMyAxios().put('/token/refresh', { refreshToken: refreshTokenCookie.value })
+            const { accessToken } = data
             setTokens({ accessToken, refreshToken: refreshTokenCookie.value })
             setTimeout(executeRefeshTokenBeforeExpire, 2000)
         } catch (error) {
