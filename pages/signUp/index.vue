@@ -101,12 +101,12 @@ const [email, emailProps] = defineField('email')
 const [password, passwordProps] = defineField('password')
 const [confirmPass, confirmPassProps] = defineField('confirmPass')
 
-const { signUp } = useAuthenticationStore()
+const { signUpMaster } = useUserStore()
 
 const submitSignUp = async () => {
     const validationErrors = await validate()
     if (!validationErrors.valid) return
-    signUp({
+    signUpMaster({
         name: values.name,
         email: values.email,
         password: values.password,

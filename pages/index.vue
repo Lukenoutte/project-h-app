@@ -4,7 +4,7 @@
             <span>Home</span>
         </div>
         <div class="p-5" v-else>
-            <Store />
+            <StorePublic />
         </div>
     </div>
     <div class="p-5" v-else>
@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import Store from './_store'
+import StorePublic from './_storePublic'
 const { currentSubdomain, isLoadingGlobal } = storeToRefs(useGlobalStore())
 definePageMeta({ middleware: ['guest'] })
 </script>

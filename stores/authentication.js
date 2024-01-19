@@ -48,19 +48,6 @@ export const useAuthenticationStore = defineStore('authentication', () => {
         }
     }
 
-    async function signUp({ name, email, password }) {
-        try {
-            isLoadingAuthentication.value = true
-            await useMyAxios().post('/signup/user', { name, email, password })
-            router.push('/signin')
-        } catch (error) {
-            console.error(error)
-            useToastError('Não foi possivel criar uma conta.')
-        } finally {
-            isLoadingAuthentication.value = false
-        }
-    }
-
     async function refreshToken() {
         try {
             const refreshTokenCookie = useCookie('refreshToken')
@@ -99,7 +86,6 @@ export const useAuthenticationStore = defineStore('authentication', () => {
         isAuthenticated,
         signIn,
         signOut,
-        signUp,
         isLoadingAuthentication,
         refreshToken,
         executeRefeshTokenBeforeExpire,

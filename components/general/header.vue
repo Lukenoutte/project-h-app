@@ -3,7 +3,8 @@
         <NuxtLink to="/" v-if="!isLoadingGlobal">
             <div class="flex items-center">
                 <UIcon class="text-3xl text-primary cursor-pointer mr-2" name="i-heroicons-fire-solid" />
-                <strong class="text-primary">Vendur</strong>
+                <strong class="text-primary" v-if="!hasDataOfCurrentStore">Vendur</strong>
+                <strong class="text-primary" v-else> {{ currentStore.name }} </strong>
             </div>
         </NuxtLink>
         <div v-else>
@@ -108,10 +109,12 @@ const profileLabel = computed(() => translate('profile'))
 const settingsLabel = computed(() => translate('settings'))
 const signOutLabel = computed(() => translate('sign-out'))
 
+const { currentUser } = storeToRefs(useUserStore())
+
 const itemsDropDownProfile = computed(() => [
     [
         {
-            label: 'ben@example.com',
+            label: currentUser.value?.email,
             slot: 'account',
             disabled: true,
         },
@@ -139,6 +142,8 @@ const itemsDropDownProfile = computed(() => [
         },
     ],
 ])
+
+const { currentStore, hasDataOfCurrentStore } = storeToRefs(useStoresStore())
 </script>
 
 <style></style>
