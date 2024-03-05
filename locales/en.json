@@ -18,5 +18,7 @@
   "signed-in-as": "Signed in as",
   "dashboard": "Dashboard",
   "store": "Store",
-  "orders": "Orders"
+  "orders": "Orders",
+  "created-successfully": "Created successfully!",
+  "error-message": "An error occurred while processing your request."
 }

@@ -18,5 +18,7 @@
   "signed-in-as": "Entrou como",
   "dashboard": "Principal",
   "store": "Loja",
-  "orders": "Pedidos"
+  "orders": "Pedidos",
+  "created-successfully": "Criado com sucesso!",
+  "error-message": "Ocorreu um erro."
 }

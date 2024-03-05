@@ -1,6 +1,6 @@
 <template>
     <div class="h-16 flex items-center px-5 justify-between">
-        <NuxtLink to="/" v-if="!isLoadingGlobal">
+        <NuxtLink :to="isLogoDisabled ? null : '/'" :disabled="true" v-if="!isLoadingGlobal">
             <div class="flex items-center">
                 <UIcon class="text-3xl text-primary cursor-pointer mr-2" name="i-heroicons-fire-solid" />
                 <strong class="text-primary" v-if="!hasDataOfCurrentStore">Vendur</strong>
@@ -110,6 +110,7 @@ const settingsLabel = computed(() => translate('settings'))
 const signOutLabel = computed(() => translate('sign-out'))
 
 const { currentUser } = storeToRefs(useUserStore())
+const isLogoDisabled = computed(() => !currentUser.value.storeId && isAuthenticated.value)
 
 const itemsDropDownProfile = computed(() => [
     [
@@ -125,11 +126,13 @@ const itemsDropDownProfile = computed(() => [
             avatar: {
                 src: 'https://avatars.githubusercontent.com/u/739984?v=4',
             },
+            disabled: isLogoDisabled.value,
         },
 
         {
             label: settingsLabel.value,
             icon: 'i-heroicons-cog-8-tooth',
+            disabled: isLogoDisabled.value,
         },
     ],
     [

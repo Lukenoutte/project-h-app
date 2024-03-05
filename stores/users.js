@@ -5,15 +5,20 @@ export const useUserStore = defineStore('users', () => {
     const router = useRouter()
     const isLoadingUser = ref(false)
     const currentUser = ref({})
+    const currentUserStore = ref({})
+    const { t: translate } = useI18n()
+    const messageSucess = translate('created-successfully')
+    const messageError = translate('error-message')
 
     async function signUpMaster({ name, email, password }) {
         try {
             isLoadingUser.value = true
             await useMyAxios().post('/signup/master', { name, email, password })
+            useToastSucess(messageSucess)
             router.push('/signin')
         } catch (error) {
             console.error(error)
-            useToastError('Não foi possivel criar uma conta.')
+            useToastError(messageError)
         } finally {
             isLoadingUser.value = false
         }
@@ -26,7 +31,20 @@ export const useUserStore = defineStore('users', () => {
             currentUser.value = data
         } catch (error) {
             console.error(error)
-            useToastError('Não foi possivel buscar dados do usuário.')
+            useToastError(messageError)
+        } finally {
+            isLoadingUser.value = false
+        }
+    }
+
+    async function showUserStore() {
+        try {
+            isLoadingUser.value = true
+            const { data } = await useMyAxios().get('/user/store')
+            currentUserStore.value = data
+        } catch (error) {
+            console.error(error)
+            useToastError(messageError)
         } finally {
             isLoadingUser.value = false
         }
@@ -37,5 +55,7 @@ export const useUserStore = defineStore('users', () => {
         isLoadingUser,
         showUser,
         currentUser,
+        showUserStore,
+        currentUserStore,
     }
 })

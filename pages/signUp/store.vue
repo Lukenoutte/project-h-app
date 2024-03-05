@@ -1,39 +1,42 @@
 <template>
-    <UCard>
-        <strong>Bem vindo(a)!</strong>
-        <p class="mt-1">O próximo passo é criar sua loja:</p>
-        <UForm :state="values" @submit="submitSignUpStore">
-            <div class="row mt-4">
-                <UInput color="gray" variant="outline" v-bind="nameProps" v-model="name" placeholder="Nome" />
-                <UInput
-                    class="mt-2"
-                    color="gray"
-                    variant="outline"
-                    v-bind="categoryProps"
-                    v-model="category"
-                    placeholder="Categoria"
-                />
-                <UInput
-                    class="mt-2"
-                    color="gray"
-                    variant="outline"
-                    v-bind="subdomainProps"
-                    v-model="subdomain"
-                    placeholder="Subdomínio"
-                />
-            </div>
-            <div class="mt-4">
-                <UButton
-                    block
-                    type="submit"
-                    label="Criar"
-                    title="Criar"
-                    color="primary"
-                    :ui="{ rounded: 'rounded-xl' }"
-                />
-            </div>
-        </UForm>
-    </UCard>
+    <div class="flex justify-center">
+        <div class="w-1/3">
+            <strong>Bem vindo(a)!</strong>
+            <p class="mt-1">O próximo passo é criar sua loja:</p>
+            <UForm :state="values" @submit="submitSignUpStore">
+                <div class="row mt-9">
+                    <UInput color="gray" variant="outline" v-bind="nameProps" v-model="name" placeholder="Nome" />
+                    <UInput
+                        class="mt-3"
+                        color="gray"
+                        variant="outline"
+                        v-bind="categoryProps"
+                        v-model="category"
+                        placeholder="Categoria"
+                    />
+                    <UInput
+                        class="mt-3"
+                        color="gray"
+                        variant="outline"
+                        v-bind="subdomainProps"
+                        v-model="subdomain"
+                        placeholder="Subdomínio"
+                    />
+                </div>
+                <div class="mt-9 flex justify-end">
+                    <UButton
+                        block
+                        type="submit"
+                        label="Criar"
+                        title="Criar"
+                        color="primary"
+                        class="w-1/3"
+                        :ui="{ rounded: 'rounded-xl' }"
+                    />
+                </div>
+            </UForm>
+        </div>
+    </div>
 </template>
 
 <script setup>
