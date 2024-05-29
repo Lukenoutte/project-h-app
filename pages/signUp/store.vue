@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-center">
-        <div class="w-1/3">
+        <div class="w-1/3 mt-8">
             <strong>Bem vindo(a)!</strong>
             <p class="mt-1">O próximo passo é criar sua loja:</p>
             <UForm :state="values" @submit="submitSignUpStore">

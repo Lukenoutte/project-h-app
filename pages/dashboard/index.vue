@@ -1,5 +1,5 @@
 <template>
-    <UCard>{{ mobileMenuIsOpen }}</UCard>
+    <UCard>Welcome!</UCard>
 </template>
 
 <script setup>

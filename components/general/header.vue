@@ -1,6 +1,6 @@
 <template>
     <div class="h-16 flex items-center px-5 justify-between">
-        <NuxtLink :to="isLogoDisabled ? null : '/'" :disabled="true" v-if="!isLoadingGlobal">
+        <NuxtLink :to="shouldDisableOnHeader ? null : '/'" :disabled="true" v-if="!isLoadingGlobal">
             <div class="flex items-center">
                 <UIcon class="text-3xl text-primary cursor-pointer mr-2" name="i-heroicons-fire-solid" />
                 <strong class="text-primary" v-if="!hasDataOfCurrentStore">Vendur</strong>
@@ -8,7 +8,7 @@
             </div>
         </NuxtLink>
         <div v-else>
-            <USkeleton class="h-8 w-[150px]" />
+            <USkeleton class="h-8 w-[100px] lg:w-[150px]" />
         </div>
         <div class="flex items-center hidden lg:flex" v-if="!isLoadingGlobal">
             <USelectMenu
@@ -65,7 +65,7 @@
             </UDropdown>
         </div>
         <div v-else>
-            <USkeleton class="h-8 w-[300px]" />
+            <USkeleton class="h-8 w-[80px] lg:w-[300px]" />
         </div>
         <div class="block lg:hidden" v-if="!isLoadingGlobal">
             <UButton
@@ -108,9 +108,14 @@ const { isAuthenticated } = storeToRefs(useAuthenticationStore())
 const profileLabel = computed(() => translate('profile'))
 const settingsLabel = computed(() => translate('settings'))
 const signOutLabel = computed(() => translate('sign-out'))
+const router = useRouter()
 
 const { currentUser } = storeToRefs(useUserStore())
-const isLogoDisabled = computed(() => !currentUser.value.storeId && isAuthenticated.value)
+const shouldDisableOnHeader = computed(() => {
+    const { currentRoute } = router
+    const { path } = currentRoute.value
+    return path === '/signup/store'
+})
 
 const itemsDropDownProfile = computed(() => [
     [
@@ -126,13 +131,13 @@ const itemsDropDownProfile = computed(() => [
             avatar: {
                 src: 'https://avatars.githubusercontent.com/u/739984?v=4',
             },
-            disabled: isLogoDisabled.value,
+            disabled: shouldDisableOnHeader.value,
         },
 
         {
             label: settingsLabel.value,
             icon: 'i-heroicons-cog-8-tooth',
-            disabled: isLogoDisabled.value,
+            disabled: shouldDisableOnHeader.value,
         },
     ],
     [
