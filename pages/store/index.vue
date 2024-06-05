@@ -1,22 +1,26 @@
 <template>
     <div class="flex flex-col">
         <span class="text-primary font-bold text-2xl">{{ $t('store') }}</span>
-        <span class="mt-2 text-gray-400">Costomize sua loja</span>
+        <span class="mt-1 text-gray-400">Costomize sua loja</span>
     </div>
     <div class="mt-7" v-if="!isLoadingUser">
         <UCard>
             <span class="mt-2 font-bold">Informações básicas</span>
-            <div class="mt-3">
-                <span class="font-bold mr-2">{{ $t('name') }}: </span>
-                <span>{{ currentUserStore.name }}</span>
+            <div class="columns-2 mt-5">
+                <div>
+                    <p class="text-gray-500">{{ $t('name') }}</p>
+                    <span class="mt-2">{{ currentUserStore.name }}</span>
+                </div>
+                <div>
+                    <p class="text-gray-500">Categoria</p>
+                    <span class="mt-2">{{ currentUserStore.category }}</span>
+                </div>
             </div>
-            <div>
-                <span class="font-bold mr-2">Categoria: </span>
-                <span>{{ currentUserStore.category }}</span>
-            </div>
-            <div>
-                <span class="font-bold mr-2">Subdomínio: </span>
-                <span>{{ currentUserStore.subdomain }}</span>
+            <div class="mt-5">
+                <div>
+                    <p class="text-gray-500">Subdomínio</p>
+                    <span class="mt-2">{{ currentUserStore.subdomain }}</span>
+                </div>
             </div>
         </UCard>
     </div>
