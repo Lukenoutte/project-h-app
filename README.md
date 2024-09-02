@@ -1,4 +1,8 @@
-# Project H
+# Project H App
+
+This is the front-end of the application, where the admin dashboard and available stores will be located.
+
+To run this complete application, you'll need the [**Project h API**](https://github.com/Lukenoutte/project-h-api). All instructions are available in the repository.
 
 ## Dependencies
 
